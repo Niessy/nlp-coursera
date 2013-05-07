@@ -1,4 +1,7 @@
-nlp-coursera
+simple-nlp
 ============
 
-Programming assignments for NLP on Coursera, posted after hard deadline.
+Simple NLP library, will include PCFG, Translation IBM 1 and 2 Models, GLM, etc...
+
+Done through nlp class on coursera
+
