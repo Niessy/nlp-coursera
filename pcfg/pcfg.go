@@ -1,3 +1,4 @@
+// TODO add support for converting to rare counts
 package pcfg
 
 import (
@@ -8,10 +9,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-)
-
-var (
-	outputTrainingFile = os.Args[3]
 )
 
 type PCFG struct {
@@ -97,10 +94,10 @@ func (pcfg *PCFG) GetWordCounts(countfile string) {
 }
 
 // Main routine
-func (pcfg *PCFG) RewriteTrainingTree(trainingfile, resultfile string) {
+func (pcfg *PCFG) RewriteTrainingTree(trainingfile, resultfile string) error {
+	f1, err := os.Open(trainingfile)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return err
 	}
 	defer f1.Close()
 
@@ -108,13 +105,12 @@ func (pcfg *PCFG) RewriteTrainingTree(trainingfile, resultfile string) {
 
 	f2, err := os.Create(resultfile)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return err
 	}
 	defer f2.Close()
 
 	// Run CKY on the training file
-	counter := 0
+	counter := 1
 	for {
 		line, err := tc.ReadString('\n')
 		line = strings.Replace(line, "\n", "", -1)
@@ -122,19 +118,19 @@ func (pcfg *PCFG) RewriteTrainingTree(trainingfile, resultfile string) {
 		if err == io.EOF {
 			break
 		} else if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
-		tree := CKYAlgorithm(s, "SBARQ")
+		fmt.Printf("Running CKY on sentence %d.\n", counter)
+		tree := pcfg.ckyAlgorithm(s, "SBARQ")
 		b, err := json.Marshal(&tree)
 		if err != nil {
-			fmt.Println(err.Error())
-			return
+			return err
 		}
+		fmt.Printf("Writing result for sentence %d\n to file.", counter)
 		fmt.Fprintf(f2, "%s\n", b)
 		counter++
-		fmt.Println(counter)
 	}
+	return nil
 }
 
 func (pcfg *PCFG) incCount(key interface{}, num float64) {
@@ -169,14 +165,12 @@ func (pcfg *PCFG) incCount(key interface{}, num float64) {
 	}
 }
 
-// CKYAlgorithm
-func (pcfg *PCFG) CKYAlgorithm(sentence []string, root string) []interface{} {
+// ckyAlgorithm
+func (pcfg *PCFG) ckyAlgorithm(sentence []string, root string) []interface{} {
 	pi := make(map[SubTree]float64)
 	bp := make(map[SubTree]interface{})
 
 	// Initialization
-	fmt.Println("Beginning CKYAlgorithm...")
-	fmt.Println("Initialization...")
 	for i, word := range sentence {
 		rare := true
 		for nt, _ := range pcfg.nonTerminalCounts {
@@ -197,7 +191,6 @@ func (pcfg *PCFG) CKYAlgorithm(sentence []string, root string) []interface{} {
 			}
 		}
 	}
-	fmt.Println("End of Initialization...")
 
 	// Main part of the algorithm
 	n := len(sentence)
@@ -217,7 +210,6 @@ func (pcfg *PCFG) CKYAlgorithm(sentence []string, root string) []interface{} {
 	_, mta := pcfg.maxSubTree(root, 1, n, pi)
 	var tree []interface{}
 	finalTree := getTree(mta, tree, bp)
-	fmt.Println("Returning final parse tree...")
 	return finalTree
 }
 
