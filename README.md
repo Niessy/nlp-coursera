@@ -4,9 +4,13 @@ Simple NLP library, will include PCFG, Translation IBM 1 and 2 Models, GLM, etc.
 
 Done through nlp class on coursera
 
-To use 
+To use in your GOPATH, should be (YOUR GO DIR)/src/github.com/Niessy.
 	
     git clone https://github.com/Niessy/simple-nlp.git
+    
+Or
+
+    go get github.com/Niessy/simple-nlp
 
 <h2> Probabilistic Context Free Grammar </h2>
 
