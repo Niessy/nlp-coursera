@@ -58,19 +58,20 @@ type BPSubTree struct {
 
 // Takes a file with terminal counts and stores them in
 // PCFG.
-func (pcfg *PCFG) GetWordCounts(countfile string) {
+func (pcfg *PCFG) GetCounts(countfile string) error {
 	f0, err := os.Open(countfile)
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		return err
 	}
 	defer f0.Close()
 
 	cr := bufio.NewReader(f0)
 	for {
 		line, err := cr.ReadString('\n')
-		if err != nil {
+		if err == io.EOF {
 			break
+		} else if != nil {
+			return err
 		}
 		line = strings.Replace(line, "\n", "", -1)
 		s := strings.Split(line, " ")
@@ -91,10 +92,12 @@ func (pcfg *PCFG) GetWordCounts(countfile string) {
 			continue
 		}
 	}
+	return nil
 }
 
-// Main routine
-func (pcfg *PCFG) RewriteTrainingTree(trainingfile, resultfile string) error {
+// Runs CKY algorithm on sentences in training file and outputs result
+// parse tree to result file.
+func (pcfg *PCFG) ParseSentences(trainingfile, resultfile string) error {
 	f1, err := os.Open(trainingfile)
 	if err != nil {
 		return err
@@ -126,10 +129,11 @@ func (pcfg *PCFG) RewriteTrainingTree(trainingfile, resultfile string) error {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("Writing result for sentence %d\n to file.", counter)
+		fmt.Printf("Writing result for sentence %d to file.\n", counter)
 		fmt.Fprintf(f2, "%s\n", b)
 		counter++
 	}
+	fmt.Printf("\nDone writing results, parsed %d sentences.\n", counter)
 	return nil
 }
 
