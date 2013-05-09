@@ -34,6 +34,29 @@ Example of usage: This works assuming the counts file already has rare counts, I
     
 <h2> Machine Translation </h2>
     
-Ex here soon...
+Example:
+
+	package main
+	
+	import (
+		"github.com/Niessy/simple-nlp/translation"
+		"fmt"
+	)
+	
+	func main() {
+		// corpus.en is the native text, corpus.es acts as the foreign text
+		// output.json contains associated probabilities for aligned native/foreign words
+		// used as input for IBM2
+		i := translation.NewIBM1("corpus.en", "corpus.es", "output.json")
+		err := i.Initialize()
+		if err != nil {
+			fmt.Println(err)
+		}
+		err = i.EMAlgorithm(5) // Number of iterations is 5
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
     
 
