@@ -34,7 +34,7 @@ Example of usage: This works assuming the counts file already has rare counts, I
     
 <h2> Machine Translation </h2>
     
-Example:
+Example IBM1:
 
 	package main
 	
@@ -57,6 +57,28 @@ Example:
 			fmt.Println(err)
 		}
 	}
+	
+Example IBM2:
+
+	package main
+
+	import (
+		"fmt"
+		"github.com/Niessy/translation"
+	)
+	
+	func main() {
+		i := translation.NewIBM2("output.json", "tparams.json", "qparams.json")
+		err := i.Initialize("corpus.en", "corpus.es")
+		if err != nil {
+			fmt.Println(err)
+		}
+		err = i.EMAlgorithm(5)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
 
     
 
