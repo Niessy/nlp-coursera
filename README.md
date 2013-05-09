@@ -1,5 +1,4 @@
 <h1>simple-nlp</h1>
-============
 
 Simple NLP library, will include PCFG, Translation IBM 1 and 2 Models, GLM, etc...
 
@@ -25,5 +24,8 @@ Example of usage: This works assuming the counts file already has rare counts, I
 	    }
     }
     
+<h2> Machine Translation </h2>
+    
+Ex here soon...
     
 
