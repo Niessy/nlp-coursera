@@ -6,7 +6,7 @@ Done through nlp class on coursera
 
 To use 
 	
-    git clone https://github.com/Niessy/simple-nlp
+    git clone https://github.com/Niessy/simple-nlp.git
 
 <h2> Probabilistic Context Free Grammar </h2>
 
