@@ -67,15 +67,6 @@ func (aligner *Aligner) argmax2(i, l, m int, fw string, engWords *[]string) (n i
 	return
 }
 
-func checkerror(e error) bool {
-	if e == io.EOF {
-		return true
-	} else if e != nil {
-		panic(e)
-	}
-	return false
-}
-
 func (model *IBM2) readtparams() error {
 	f, err := os.Open(model.TparamInput)
 	if err != nil {

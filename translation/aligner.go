@@ -95,13 +95,17 @@ func (aligner *Aligner) BestAlignment() error {
 	k := 1
 	for {
 		engLine, err := er.ReadString('\n')
-		if checkerror(err) {
+		if err == io.EOF {
 			break
+		} else if err != nil {
+			return err
 		}
 
 		forLine, err := fr.ReadString('\n')
-		if checkerror(err) {
+		if err == io.EOF {
 			break
+		} else if err != nil {
+			return err
 		}
 
 		engWords := strings.Split(strings.TrimSpace(engLine), " ")

@@ -3,6 +3,7 @@ package translation
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 	"time"
@@ -49,12 +50,16 @@ func (model *IBM2) Initialize() error {
 
 	for {
 		engLine, err := er.ReadString('\n')
-		if checkerror(err) {
+		if err == io.EOF {
+			break
+		} else if err != nil {
 			return err
 		}
 
 		forLine, err := fr.ReadString('\n')
-		if checkerror(err) {
+		if err == io.EOF {
+			break
+		} else if err != nil {
 			return err
 		}
 
@@ -102,13 +107,17 @@ func (model *IBM2) EMAlgorithm(n int) error {
 
 		for {
 			engLine, err := er.ReadString('\n')
-			if checkerror(err) {
+			if err == io.EOF {
 				break
+			} else if err != nil {
+				return err
 			}
 
 			forLine, err := fr.ReadString('\n')
-			if checkerror(err) {
+			if err == io.EOF {
 				break
+			} else if err != nil {
+				return err
 			}
 
 			if engLine == "\n" || forLine == "\n" {
