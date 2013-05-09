@@ -70,7 +70,7 @@ func (pcfg *PCFG) GetCounts(countfile string) error {
 		line, err := cr.ReadString('\n')
 		if err == io.EOF {
 			break
-		} else if != nil {
+		} else if err != nil {
 			return err
 		}
 		line = strings.Replace(line, "\n", "", -1)
