@@ -4,6 +4,10 @@ Simple NLP library, will include PCFG, Translation IBM 1 and 2 Models, GLM, etc.
 
 Done through nlp class on coursera
 
+To use 
+	
+    git clone https://github.com/Niessy/simple-nlp
+
 <h2> Probabilistic Context Free Grammar </h2>
 
 Example of usage: This works assuming the counts file already has rare counts, I'm going to add support for this soon.
