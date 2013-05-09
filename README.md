@@ -79,6 +79,29 @@ Example IBM2:
 		}
 	}
 
+Example: Aligner, outputs the alignment of native/foreign words
+
+	package main
+	
+	import (
+		"fmt"
+		"github.com/Niessy/simple-nlp/translation"
+	)
+	
+	func main() {
+		a := new(translation.Aligner)
+		a.EnglishFile = "corpus.en"
+		a.ForeignFile = "corpus.es"
+		a.AlignmentFile = "alignment.txt"
+		err = a.GetParams("tparams.json", "qparams.json")
+		if err != nil {
+			fmt.Println(err)
+		}
+		err = a.BestAlignment()
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
 
     
 
