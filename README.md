@@ -64,7 +64,7 @@ Example IBM2:
 
 	import (
 		"fmt"
-		"github.com/Niessy/translation"
+		"github.com/Niessy/simple-nlp/translation"
 	)
 	
 	func main() {
