@@ -129,7 +129,9 @@ func (pcfg *PCFG) ParseSentences(trainingfile, resultfile string) error {
 		if err != nil {
 			return err
 		}
-		fmt.Printf("Writing result for sentence %d to file.\n", counter)
+		if (counter % 100) == 0 {
+			fmt.Printf("Parsed %d sentences.\n", counter)
+		}
 		fmt.Fprintf(f2, "%s\n", b)
 		counter++
 	}
